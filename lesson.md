@@ -1,22 +1,17 @@
-## Lesson 1:
-If you're reading this, you're probably already convinced that AngularJS is worth a try and you wanna know all about it. So I won't try to convince you, but jump right in with the view.
+## Lesson 2:
+I hope you had fun with lesson 1. Last time we looked briefly at AngularJS's DOM templating and `$scope` abstraction layer. This lesson is a closer look at how AngularJS's DOM Templating makes the view take control of the application. In AngularJS, the view displays information how it chooses instead of having the controller choose what information is inserted into which elements.
 
-Start by opening index.html. You will see angular is included into the bottom of the page, the `<body>` has `ng-app` as an attribute, and the header says hello to someone yet to be determined.
+Take a look at the new index.html. There are some new things to mention:
+ 1. There is a new paragraph with `<span>In JSON that is </span>` and the `$scope.who` variable inside but the variable sure doesn't read like JSONN.
+ 2. There is a `<button>` that doesn't do anything labeled "Increment Counter" next to a `$scope.counter` variable.
 
-I want to mention the first two briefly:
- 1. `ng-app` - this tells Angular where to start and what to initialize. Some browsers may not like the attribute (IE -- who else) so there are many other ways to use it in places you are concerned about passing strict standards, my favorite is `data-ng-app` but [here is a full list of others.](http://docs.angularjs.org/api/ng.directive:ngApp)
- 2. `<script src="lib/angular.js"></script>` - The script is at the bottom of the page. This is standard best practice for all browsers -- [read more here.](http://developer.yahoo.com/performance/rules.html#js_bottom)
+### Expressions
+Before we get to modifying those two, I would like to describe AngularJS's ability to handle expressions in the DOM templates. There are a great number of things you can put in those `{{ }}`. Of course we have already used simple variables like `{{ who }}` but we can put expressions and filters in there too.
 
-### Now lets say hello!
-For the moment, the header just says `Hello !` and the input doesn't do anything.
+Lets start by changing the `<h2>Hello {{ who }}!</h2>` to have something more colorful. Try `<h2>{{'Hello '+who+'!'}}</h2>`. That's right! the DOM templating can use literals and contaminators among other things.
 
-Notice in the code, the header reads `{{ who }}`. This tag creates a variable in the `$scope` of this application: `$scope.who`. the `$scope` is an abstraction layer in the AngularJS application that manages data, bindings and all those little things we don't need to know about quite yet. If `$scope.who` is already set, `{{ who }}` will be replaced with the stringification of `$scope.who`. Otherwise AngularJS will just set `$scope.who` to equal `null`, which stringified is an empty string. Thus the output is `<h2>Hello !</h2>`.
+Those expressions can also use filters in the same way Unix does, the | (pipe) command. In that paragraph with the span. change the `{{ who }}` to `{{ who | json }}`. The pipe works just like in Unix to pass the output of one command into the input of the next. the `json` filter outputs the JSON.stringify() of anything you give it. In this case there isn't much difference, but the `json` filter adds `""` around the `$scope.who` variable. Later we will have arrays and you can try this filter again to see the output. It is far more interesting.
+There are other filters including orderBy, limitTo, and number, but we don't need to get into those quite yet. Feel free to experiment with them though.
 
-In order to change `$scope.who` we need to bind something with an input to `$scope.who`. The `$scope` manages data-binding in both directions, setting variables and updating the DOM. The `ng-model` directive is used to bind an input to the `$scope`. Add `ng-model="who"` to the input and `$scope.who` will be updated whenever the input changes. the input should read `<input type="text" ng-model="who" />`.
-
-When you run index.html you will be able to put any thing into the input and your HTML will say hello. Give it a try, say hello. It really is that easy, `ng-model="who"` links to {{ who }}!
-
-### Summary
-In this lesson we went over how AngularJS uses DOM templating to place date where you want it. Also, we touched base on the important concept of `$scope` and how AngularJS uses this abstraction layer to store information and to do all the nitty-gritty DOM manipulation that you don't have to do any longer.
-
-Play around a little bit. Try creating new variables and try `{{ }}` in attributes. When you are ready progress to lesson-02 with `git checkout lesson-02` you will have to either commit changes or checkout index.html or you will get an warning.
+Last we will go over a new directive, `ng-click=""`. Again if you want you can use `data-ng-click=""` where you are cautious of strict standards. `ng-click=""` does whatever you say whenever you click the element. No need for the element to be a button or anchor either. you can put `ng-click=""` on almost anything.
+Add the `ng-click` to the `<button>` and put `counter = counter + 1` inside the `ng-click`. Now if you run the index.html, every time you click the button the counter variable increases. Notice that there is no controller to do this. There are no jQuery selectors or $.on() functions to call. The click updates the `$scope.counter` and AngularJS updates the DOM to match the new data.
