@@ -1,13 +1,28 @@
-## Lesson 3:
-Hello again, in this lesson we will talk about arrays, `ng-repeat=""` attribute, and child/sub `$scope`. These are probably the two most utilized features of AngularJS and you will be amazed at how easy it is to utilize them. 
+## Lesson 4:
+Hello again! In this lesson we'll go over some of the really cool functions of the view that we haven't yet discussed: String filtering, orderBy, ternary statements, and the `ng-init` attribute. I hope by now you are starting to see why the view is so powerful in AngularJS.
 
-Go ahead and open the new index.html. There are some more changes. The counter is gone, we won't need it for now, and there is a new `<ul>` and `<li>`. I have pre-populated the `<li>` with a `$scope.person` variable. On the `<li>` there is an `ng-repeat=""` attribute. Try entering something into the input. You will see both `{{ who }}` and `{{ who | json }}` update but person doesn't do anything because we don't have anything assigned to modify `$scope.person`.  
+When you look at the new index.html you'll notice some major changes. The most noticeable change is the `ng-init` at the top -- I'll describe that later. Also, I got rid of the text field for `$scope.who` and replaced it with a text box bound to `$scope.showOnly`. Next there are two new buttons with `ng-click` attributes which change a variable named `$scope.sort`. Last, I changed the contents of the `<li>`.
 
-First, we will modify the `ng-model="who"` output so it forms an array instead of just a string. Add onto the input this attribute, `ng-list`. This makes the input string a comma separated, trimmed list and store it as an array in `$scope.who` ([More info here](http://docs.angularjs.org/api/ng.directive:ngList)). Go ahead and add the attribute then type something like `"John, Tom, Joe"` into the text field. You'll see the difference in the `{{ who }}` and `{{ who | json }}` outputs.
+### ng-init
+`ng-init=""` -- This directive will run just after AngularJS reads the DOM elements into memory and before it starts replacing bound DOM elements with data or looping through `ng-repeat` attributes. As you can see in the example, it is usually used for initializing the default variables needed for that set of elements, but it can also call an initialization function or any number of other things that you might need to happen before a collection of DOM nodes is displayed. You may even put it inside an `ng-repeat` template. It will be called after AngularJS processes the template but before AngularJS starts executing the commands inside.
+In this case, the `ng-init` is making our `$scope.who` variable ready.
 
-Next lets use this new array. Inside the `ng-repeat=""` add this string, `"person in who"`. This works just like forEach in multiple languages. The `ng-repeat` uses the node it sits on and its children as a template and produces one copy for each `person` in `$scope.who`. Try typing in some comma seperated names again and you will see that each person gets a hello. Also you can see that the names AND the number of people update automatically. This feature is done without writing any code for adding or removing `<li>` tags. 
+### Object Properties
+Go ahead and run the index.html. You will see empty hellos and not much else. That is because the `ng-repeat` is making an `<li>` for each person, but the templates inside aren't linked to any data. Start by replacing the first `{{  }}` with `{{ person }}`. You will see that this produces all the data on that person in a JSON format. Most people won't take the time to read the JSON string, so lets make it more user friendly. Have the list say hello to `{{ person.name }}`. You should recognize that `name` is one of the properties inside each of the `person` objects inside the `$scope.who` array we initialized with `ng-init`. Add age where it belongs using `{{ person.age }}`.
 
-Last, I want to describe the `$scope` in relation to what just happened with `ng-repeat`. Each of the children produced by `ng-repeat` get its own separate sub-scope. Just like in JavaScript or PHP, you can call `{{ who }}` of the parent `$scope` from inside the child `$scope`, but each child `$scope` is completely separate from the others. Later, we can get into arrays of objects and accessing the properties of those objects.
+Now you can see clearly how the child `$scope` works. Each repetition of `ng-repeat` gets its own child `$scope` where `$scope.person` is instantiated with a `person.name` property and a `person.age` property. Each child `$scope` can access its own information and its parent `$scope` but not any of the others' -- sibling `$scope` if you will.
 
-***
-Next lesson, we will go over text-filtering, `orderBy`, and the `ng-init=""` attribute.
+### Ternary Statement
+You may have noticed that some people don't have ages and the statement, "Your age is ." looks incomplete. AngularJS won't support true ternary statements until [version 1.1.5](http://blog.angularjs.org/2013/05/angularjs-107-monochromatic-rainbow-and.html) (we get if statements then too). Until that time there is a way to short it using boolean conditional shorting A.K.A [Short Circuit Evaluation](http://en.wikipedia.org/wiki/Short-circuit_evaluation). Try this, `{{ person.age || 'not given' }}`. Just like in a standard boolean expression the first fails with a false-ish value (`null` in this case) and tries the next statement because the first is followed by an `||` (or) operator. The same concept works with `&&` (and) operators, `{{ false && explode() }}` will never `explode()`  because of the `&&` operator and short circuit evaluation.
+
+### String Filter
+Next, let's search for people we know by adding a `filter`. Add to the `ng-repeat` expression so it reads, `person in who | filter:showOnly`. This passes each `person` object into the `filter` before making that person's DOM elements. You may notice that the text box is also linked to `$scope.showOnly`. Try it out and see the reaction.
+* If you enter "sa" into the text box, only Sarah, Samuel, Samantha, and Tessa appear in the list. 
+* If you enter "2", Danial and Daniel are the only people displayed.
+
+### orderBy
+Last, let's utilize those two `<buttons>`. In the HTML you can see that each sets a variable, `$scope.sort`, to either 'name' or 'age' (notice those are the names of out `person` object properties). After the `... | filter:showOnly` add `... | orderBy:sort`. Then when you click either button it changes how we sort the list. `orderBy` only works when you have an array of objects to sort. You can even sort ascending or descending. Make the `orderBy` read like this `... | orderBy:sort:reverse` and instruct the buttons how to handle `reverse`, `sort = 'name'; reverse = !reverse` -- do the same with both buttons and the list will sort ascending and descending.
+
+
+### Next Time:
+Next time we'll finally get into controllers. I have done my best to impart the power of AngularJS's view. To be honest, I try to come up with new fun mini-projects with AngularJS that don't require any controller at all. So far my favorite is a working calculator.

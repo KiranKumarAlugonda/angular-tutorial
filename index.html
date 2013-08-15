@@ -3,17 +3,32 @@
 <head>
     <title></title>
 </head>
-<body ng-app>
+<body ng-app ng-init="who = [
+                         {name:'Danial', age: 20},
+                         {name:'David', age: 13},
+                         {name:'Johnny', age: 15},
+                         {name:'Frank', age: 18},
+                         {name:'Daniel', age: 26},
+                         {name:'Samuel'},
+                         {name:'Johnathan'},
+                         {name:'Sarah', age: 40},
+                         {name:'Samantha', age: 30},
+                         {name:'Tessa'},
+                         {name:'Jennifer', age: 16}
+                      ]">
 
-    <input type="text" ng-model="who" />
-    <br />
-    <h2>Hello {{ who }}!</h2>
+    <label>Show Only:</label>
+    <input type="text" ng-model="showOnly" /><br />
+
+    <button ng-click="sort = 'name'">Order By Name.</button>
+    <button ng-click="sort = 'age'">Order By Age.</button>
+
     <ul>
-        <li ng-repeat="">
-            Hello {{ person }}
+        <li ng-repeat="person in who">
+            <strong>Hello {{  }}!</strong> <br />
+             Your age is {{  }}.
         </li>
     </ul>
-    <p><span>In JSON that is </span>{{ who | json }}</p>
 
     <script src="lib/angular.js"></script>
 </body>
