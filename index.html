@@ -8,12 +8,12 @@
     <input type="text" ng-model="who" />
     <br />
     <h2>Hello {{ who }}!</h2>
-    <p><span>In JSON that is </span>{{ who }}</p>
-
-    <div>
-        {{ counter }}<br />
-        <button>Increment Counter</button>
-    </div>
+    <ul>
+        <li ng-repeat="">
+            Hello {{ person }}
+        </li>
+    </ul>
+    <p><span>In JSON that is </span>{{ who | json }}</p>
 
     <script src="lib/angular.js"></script>
 </body>
