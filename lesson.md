@@ -1,16 +1,16 @@
 ## Lesson 2:
-I hope you had fun with lesson 1. Last time we looked briefly at AngularJS's DOM templating and `$scope` abstraction layer. This lesson is a closer look at how AngularJS's DOM Templating makes the view take control of the application. In AngularJS, the view displays information how it chooses instead of having the controller choose what information is inserted into which elements.
+I hope you had fun with lesson 1. Last time we looked briefly at AngularJS's DOM templating and `$scope` abstraction layer. This lesson is a closer look at how AngularJS's DOM Templating allows the view to take control of the application. Most JavaScript will seek out DOM elements and manipulate or build upon them from the controller. Instead, AngularJS's view dictates where data goes and how data looks. Then, the controller manipulates the data. The controller isn't concerned about the DOM or how the data is displayed. This distinction allows for better separation of concerns.
 
 Take a look at the index.html. There are some new things to mention:
- 1. There is a new paragraph with `<span>In JSON that is </span>` and the `$scope.who` variable inside but the variable sure doesn't read like JSON.
- 2. There is a `<button>` that doesn't do anything labeled "Increment Counter" next to a `$scope.counter` variable.
+ 1. There is a new paragraph with `<span>In JSON that is </span>` and a reference to `$scope.who` inside, but the variable doesn't yet read like JSON.
+ 2. There is a `<button>`, which doesn't do anything, labeled "Increment Counter" next to a `$scope.counter` reference.
 
 ### Expressions
-Before we get to modifying those two, I would like to describe AngularJS's ability to handle expressions in the DOM templates. There are a great number of things you can put in those `{{ }}`. Of course we have already used simple variables like `{{ who }}` but we can put expressions and filters in there too.
+Before we get to fixing the HTML, I would like to describe AngularJS's ability to handle expressions in the DOM templates. There are a great number of things you can put in those `{{ }}`. Of course we have already used simple variables like `{{ who }}` but we can put expressions and filters in there too.
 
-Let's start by changing the `<h2>Hello {{ who }}!</h2>` to have something more colorful. Try `<h2>{{'Hello '+who+'!'}}</h2>`. That's right! The DOM templating can use literals and concatenators among other things.
+Let's start by changing the `<h2>Hello {{ who }}!</h2>` to have something more colorful. Try `<h2>{{'Hello '+who+'!'}}</h2>`. That's right! The DOM templating can use literals, concatenators, and many other things.
 
-Those expressions can also use filters in the same way Unix does, the `| (pipe)` command. In the paragraph. change the `{{ who }}` to `{{ who | json }}` (the pipe key is usually `shift+\`). The pipe works just like in Unix to pass the output of one command into the input of the next. the `json` filter outputs similar to JSON.stringify(). In this case there isn't much difference, but the `json` filter adds `""` around the `$scope.who` variable. Later we will have arrays and you can try this filter again to see the output. It is far more interesting and can be useful for debugging.
+Those expressions can also use filters similar to the way Unix does -- the `| (pipe)` command. In the paragraph, change the `{{ who }}` to `{{ who | json }}` (the pipe key is usually `shift+\`). The pipe works just like in Unix to pass the output of one command into the input of the next. the `json` filter outputs similar to JSON.stringify(). In this case there isn't much difference, but the `json` filter adds `""` around the `$scope.who` variable. Later we will have arrays and you can try this filter again to see the output. It is far more interesting and can be useful for debugging.
 There are other filters including `orderBy`, `limitTo`, and `number`, but we don't need to get into those quite yet. Feel free to experiment with them though.
 
 Last we will go over a new directive, `ng-click=""`. Again if you want you can use `data-ng-click=""` where you are cautious of strict standards. `ng-click=""` does what it is told when you click the element the attribute is on. You can put `ng-click=""` on almost anything, there is no need for the element to be a `<button>` or `<a>` either.
