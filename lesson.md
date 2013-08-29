@@ -17,6 +17,6 @@ In order to change `$scope.who` we need to bind something with an input to `$sco
 When you run index.html you will be able to put any thing into the input and your HTML will say hello. Give it a try, say hello. It really is that easy, `ng-model="who"` links to {{ who }}!
 
 ### Summary
-In this lesson we went over how AngularJS uses DOM templating to place date where you want it. Also, we touched base on the important concept of `$scope` and how AngularJS uses this abstraction layer to store information and to do all the nitty-gritty DOM manipulation that you don't have to do any longer.
+In this lesson we went over how AngularJS uses DOM templating to place data where you want it. Also, we touched base on the important concept of `$scope` and how AngularJS uses this abstraction layer to store information and to do all the nitty-gritty DOM manipulation that you don't have to do any longer.
 
 Play around a little bit. Try creating new variables and try `{{ }}` in attributes. When you are ready progress to lesson-02 with `git checkout lesson-02` you will have to either commit changes or checkout index.html or you will get an warning.
